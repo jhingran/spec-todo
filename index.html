@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo List</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>Todo List</h1>
+    <form id="todo-form">
+      <input
+        id="todo-input"
+        type="text"
+        placeholder='e.g. "call AT&amp;T by April 6th" or "run 5 miles this weekend"'
+        autocomplete="off"
+      />
+      <button type="submit">Add</button>
+    </form>
+    <ul id="todo-list"></ul>
+    <p id="empty-state" class="empty-state" hidden>No todos yet. Add one above!</p>
+  </div>
+
+  <!-- Firebase SDK v9 (compat mode for simpler CDN use) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="dateParser.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
