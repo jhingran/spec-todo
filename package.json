@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "node --test tests/dateParser.test.js tests/firebase.test.js",
+    "test": "node --test tests/dateParser.test.js tests/firebase.test.js tests/rules.test.js",
     "test:unit": "node --test tests/dateParser.test.js",
-    "test:firebase": "node --test tests/firebase.test.js"
+    "test:firebase": "node --test tests/firebase.test.js",
+    "test:rules": "node --test tests/rules.test.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/jhingran/spec-todo#readme",
   "description": "",
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.0",
     "firebase-admin": "^13.7.0",
     "firebase-tools": "^15.12.0"
   }
