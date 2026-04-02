@@ -47,23 +47,39 @@ async function addTodo(rawText) {
 
   const { cleanText, dueDate } = parseDueDate(trimmed);
 
-  await todosRef.add({
-    text: cleanText,
-    dueDate: dueDate,        // ISO date string or null
-    completed: false,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  });
-  return true;
+  try {
+    await todosRef.add({
+      text: cleanText,
+      dueDate: dueDate,        // ISO date string or null
+      completed: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    return true;
+  } catch (err) {
+    console.error("Failed to add todo:", err);
+    alert(`Could not save todo: ${err.message}`);
+    return false;
+  }
 }
 
 /** Toggle the completed state of a todo. */
 async function toggleTodo(id, completed) {
-  await todosRef.doc(id).update({ completed });
+  try {
+    await todosRef.doc(id).update({ completed });
+  } catch (err) {
+    console.error("Failed to toggle todo:", err);
+    alert(`Could not update todo: ${err.message}`);
+  }
 }
 
 /** Permanently delete a todo. */
 async function deleteTodo(id) {
-  await todosRef.doc(id).delete();
+  try {
+    await todosRef.doc(id).delete();
+  } catch (err) {
+    console.error("Failed to delete todo:", err);
+    alert(`Could not delete todo: ${err.message}`);
+  }
 }
 
 // ─── Rendering ────────────────────────────────────────────────────────────────
