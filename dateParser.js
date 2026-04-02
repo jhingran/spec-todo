@@ -179,3 +179,7 @@ function formatDueDate(isoDate) {
 function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+
+if (typeof module !== "undefined") {
+  module.exports = { parseDueDate, formatDueDate };
+}
