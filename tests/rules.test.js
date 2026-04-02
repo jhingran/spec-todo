@@ -66,21 +66,20 @@ const sampleTodo = {
   createdAt: new Date(),
 };
 
-// ─── Current rules: open read/write ──────────────────────────────────────────
+// ─── Authenticated client (what the browser app does via anonymous auth) ─────
 
-describe("rules — unauthenticated client (current app behaviour)", () => {
+describe("rules — authenticated client (anonymous auth)", () => {
   test("can create a todo", async () => {
-    const db = unauthClient();
+    const db = authClient();
     await assertSucceeds(todosCol(db).add(sampleTodo));
   });
 
   test("can read todos", async () => {
-    // Seed a doc via admin so the read has something to return
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
       await ctx.firestore().collection("todos").add(sampleTodo);
     });
 
-    const db = unauthClient();
+    const db = authClient();
     await assertSucceeds(todosCol(db).get());
   });
 
@@ -91,7 +90,7 @@ describe("rules — unauthenticated client (current app behaviour)", () => {
       docId = ref.id;
     });
 
-    const db = unauthClient();
+    const db = authClient();
     await assertSucceeds(todosCol(db).doc(docId).update({ completed: true }));
   });
 
@@ -102,7 +101,7 @@ describe("rules — unauthenticated client (current app behaviour)", () => {
       docId = ref.id;
     });
 
-    const db = unauthClient();
+    const db = authClient();
     await assertSucceeds(todosCol(db).doc(docId).delete());
   });
 });
@@ -111,12 +110,9 @@ describe("rules — unauthenticated client (current app behaviour)", () => {
 // These tests are skipped for now. When you add authentication, change the
 // rules to `allow read, write: if request.auth != null` and unskip them.
 
-describe("rules — what auth-gated rules would enforce (skipped until auth added)", () => {
-  // To activate: update firestore.rules to require auth, then remove the
-  // `if (true) return` lines below.
+describe("rules — auth-gated enforcement", () => {
 
   test("unauthenticated user cannot create a todo (with auth rules)", async () => {
-    if (true) return; // remove this line after adding auth to the app
     const db = unauthClient();
     await assertFails(todosCol(db).add(sampleTodo));
   });

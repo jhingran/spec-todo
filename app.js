@@ -151,4 +151,9 @@ form.addEventListener("submit", async (e) => {
 
 // ─── App Init ─────────────────────────────────────────────────────────────────
 
-loadTodos(renderTodoList);
+firebase.auth().signInAnonymously()
+  .then(() => loadTodos(renderTodoList))
+  .catch((err) => {
+    console.error("Auth failed:", err);
+    alert(`Authentication failed: ${err.message}\n\nMake sure Anonymous Auth is enabled in your Firebase Console (Authentication → Sign-in method → Anonymous).`);
+  });
